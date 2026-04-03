@@ -1,6 +1,6 @@
 # BIMXcloud Store
 
-E-commerce frontend for [bimxcloud.com](https://bimxcloud.com) built as a Frappe app on top of [Frappe Webshop](https://github.com/frappe/webshop).
+E-commerce frontend built as a Frappe app.
 
 ## Features
 
@@ -33,32 +33,24 @@ bimxcloud_store/
 
 ## Installation
 
-### Prerequisites
-
-```bash
-# Make sure webshop is installed
-bench get-app webshop https://github.com/frappe/webshop
-bench --site bimxcloud.com install-app webshop
-```
-
 ### Install this app
 
 ```bash
 # Option A: from GitHub (after pushing)
 bench get-app bimxcloud_store https://github.com/hectorburciaga/bimxcloud_store
-bench --site bimxcloud.com install-app bimxcloud_store
+bench --site YOUR_SITE install-app bimxcloud_store
 
 # Option B: local development
 cd frappe-bench/apps
 cp -r /path/to/bimxcloud_store .
-bench --site bimxcloud.com install-app bimxcloud_store
+bench --site YOUR_SITE install-app bimxcloud_store
 ```
 
 ### Build assets
 
 ```bash
 bench build --app bimxcloud_store
-bench --site bimxcloud.com clear-cache
+bench --site YOUR_SITE clear-cache
 ```
 
 ## Configuration
@@ -91,9 +83,7 @@ Then create a **Payment Gateway Account** linking it to a GL account.
 For each product in ERPNext Desk → Item:
 
 - **Published on Website**: ✓
-- **Website Price**: set per-item or via Price List
-- **Custom Field `custom_category`**: `bim` | `erp` | `storage`
-  - Add this field via **Customize Form → Item**
+- **Website Price**: Use the Store Item Doctype to add Items to the Online Store.
 
 ### 4. Navigation
 
@@ -104,7 +94,7 @@ The portal menu defined in `hooks.py` adds these links for all users:
 | Inicio | /landing | Everyone |
 | Tienda | /store | Everyone |
 | Carrito | /cart | Everyone |
-| Portal | /customer_portal | Customers only |
+| Portal de Clientes | /customer_portal | Customers only |
 
 ## Customization
 
