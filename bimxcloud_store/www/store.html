@@ -61,7 +61,9 @@
     <li><a href="/landing">Inicio</a></li>
     <li><a href="/store">Tienda</a></li>
     <li><a href="/cart">Carrito</a></li>
+    {% if frappe.session.user != 'Guest' %}
     <li><a href="/customer_portal">Portal de Clientes</a></li>
+    {% endif %}
     {% if frappe.session.user == 'Guest' %}
     <li><a href="/login" id="mobile-auth-btn">Iniciar Sesión</a></li>
     {%- else -%}
