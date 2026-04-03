@@ -655,9 +655,7 @@ function showOrderConfirmation(orderName, method) {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
   }, { passive: true });
 
-  document.getElementById('hamburger').addEventListener('click', () => {
-    document.getElementById('mobile-menu').classList.toggle('open');
-  });
+  // Note: hamburger / mobile-menu toggle is handled by store.js (loaded on all pages)
 
   const loggedIn = window.frappe?.session?.user && frappe.session.user !== 'Guest';
   const authBtn  = document.getElementById('nav-auth-btn');
