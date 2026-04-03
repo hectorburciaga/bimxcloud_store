@@ -1,252 +1,55 @@
-app_name = "bimxcloud_store"
-app_title = "Bimxcloud Store"
-app_publisher = "Bimxcloud"
-app_description = "Bimxcloud E Commerce Front End"
-app_email = "support@bimxcloud.com"
-app_license = "gpl-3.0"
+from __future__ import unicode_literals
 
-# Apps
-# ------------------
+app_name        = "bimxcloud_store"
+app_title       = "BIMXcloud Store"
+app_publisher   = "BIMXcloud"
+app_description = "BIMXcloud e-commerce store with native PayPal and wire transfer checkout"
+app_email       = "soporte@bimxcloud.com"
+app_license     = "MIT"
 
-# required_apps = []
+# ─── CSS / JS bundled into all web pages ──────────────────────────
+# store.css and cart.css are page-specific and loaded via <link> in
+# their respective HTML templates — no need to include them globally.
 
-# Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "bimxcloud_store",
-# 		"logo": "/assets/bimxcloud_store/logo.png",
-# 		"title": "Bimxcloud Store",
-# 		"route": "/bimxcloud_store",
-# 		"has_permission": "bimxcloud_store.api.permission.has_app_permission"
-# 	}
-# ]
+# ─── PORTAL MENU ──────────────────────────────────────────────────
+# Visible to all roles (empty role = Guest + all logged-in users).
+# "Portal" route is restricted to Customers in get_context.
+portal_menu_items = [
+    {"title": "Inicio",  "route": "/landing",        "reference_doctype": "", "role": ""},
+    {"title": "Tienda",  "route": "/store",           "reference_doctype": "", "role": ""},
+    {"title": "Carrito", "route": "/cart",            "reference_doctype": "", "role": ""},
+    {"title": "Portal",  "route": "/customer_portal", "reference_doctype": "", "role": "Customer"},
+]
 
-# Includes in <head>
-# ------------------
+# ─── ROUTE ALIASES ────────────────────────────────────────────────
+# Redirect legacy /all-products to our new custom /store page
+website_route_rules = [
+    {"from_route": "/all-products", "to_route": "/store"},
+    {"from_route": "/shop",         "to_route": "/store"},
+]
 
-# include js, css files in header of desk.html
-# app_include_css = "/assets/bimxcloud_store/css/bimxcloud_store.css"
-# app_include_js = "/assets/bimxcloud_store/js/bimxcloud_store.js"
-
-# include js, css files in header of web template
-# web_include_css = "/assets/bimxcloud_store/css/bimxcloud_store.css"
-# web_include_js = "/assets/bimxcloud_store/js/bimxcloud_store.js"
-
-# include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "bimxcloud_store/public/scss/website"
-
-# include js, css files in header of web form
-# webform_include_js = {"doctype": "public/js/doctype.js"}
-# webform_include_css = {"doctype": "public/css/doctype.css"}
-
-# include js in page
-# page_js = {"page" : "public/js/file.js"}
-
-# include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
-# doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
-# doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
-
-# Svg Icons
-# ------------------
-# include app icons in desk
-# app_include_icons = "bimxcloud_store/public/icons.svg"
-
-# Home Pages
-# ----------
-
-# application home page (will override Website Settings)
-# home_page = "login"
-
-# website user home page (by Role)
-# role_home_page = {
-# 	"Role": "home_page"
-# }
-
-# Generators
-# ----------
-
-# automatically create page for each record of this doctype
-# website_generators = ["Web Page"]
-
-# automatically load and sync documents of this doctype from downstream apps
-# importable_doctypes = [doctype_1]
-
-# Jinja
-# ----------
-
-# add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "bimxcloud_store.utils.jinja_methods",
-# 	"filters": "bimxcloud_store.utils.jinja_filters"
-# }
-
-# Installation
-# ------------
-
-# before_install = "bimxcloud_store.install.before_install"
-# after_install = "bimxcloud_store.install.after_install"
-
-# Uninstallation
-# ------------
-
-# before_uninstall = "bimxcloud_store.uninstall.before_uninstall"
-# after_uninstall = "bimxcloud_store.uninstall.after_uninstall"
-
-# Integration Setup
-# ------------------
-# To set up dependencies/integrations with other apps
-# Name of the app being installed is passed as an argument
-
-# before_app_install = "bimxcloud_store.utils.before_app_install"
-# after_app_install = "bimxcloud_store.utils.after_app_install"
-
-# Integration Cleanup
-# -------------------
-# To clean up dependencies/integrations with other apps
-# Name of the app being uninstalled is passed as an argument
-
-# before_app_uninstall = "bimxcloud_store.utils.before_app_uninstall"
-# after_app_uninstall = "bimxcloud_store.utils.after_app_uninstall"
-
-# Desk Notifications
-# ------------------
-# See frappe.core.notifications.get_notification_config
-
-# notification_config = "bimxcloud_store.notifications.get_notification_config"
-
-# Permissions
-# -----------
-# Permissions evaluated in scripted ways
-
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
+# ─── WEBSHOP SETTINGS (apply after installing webshop app) ────────
 #
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
-
-# Document Events
-# ---------------
-# Hook on document methods and events
-
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
-
-# Scheduled Tasks
-# ---------------
-
-# scheduler_events = {
-# 	"all": [
-# 		"bimxcloud_store.tasks.all"
-# 	],
-# 	"daily": [
-# 		"bimxcloud_store.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"bimxcloud_store.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"bimxcloud_store.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"bimxcloud_store.tasks.monthly"
-# 	],
-# }
-
-# Testing
-# -------
-
-# before_tests = "bimxcloud_store.install.before_tests"
-
-# Extend DocType Class
-# ------------------------------
+# 1. bench get-app webshop
+#    bench --site bimxcloud.com install-app webshop
 #
-# Specify custom mixins to extend the standard doctype controller.
-# extend_doctype_class = {
-# 	"Task": "bimxcloud_store.custom.task.CustomTaskMixin"
-# }
-
-# Overriding Methods
-# ------------------------------
+# 2. In ERPNext Desk → Webshop Settings:
+#    - Enable Shopping Cart: ✓
+#    - Price List: Standard Selling
+#    - Default Customer Group: Individual (or create "Portal Customer")
+#    - Payment Gateway: PayPal  ← configure separately (see below)
+#    - Shipment: leave empty (services, no physical shipping)
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "bimxcloud_store.event.get_events"
-# }
+# 3. In ERPNext Desk → Payment Gateway → New:
+#    - Gateway: PayPal
+#    - Client ID: <your PayPal client ID>
+#    - Client Secret: <your PayPal secret>
+#    - Mode: Live (or Sandbox for testing)
 #
-# each overriding function accepts a `data` argument;
-# generated from the base implementation of the doctype dashboard,
-# along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-# 	"Task": "bimxcloud_store.task.get_dashboard_data"
-# }
-
-# exempt linked doctypes from being automatically cancelled
+# 4. In ERPNext Desk → Item (for each product):
+#    - Published on Website: ✓
+#    - Add custom field "custom_category": bim | erp | storage
+#    - Set Website Price (price_list_rate)
 #
-# auto_cancel_exempted_doctypes = ["Auto Repeat"]
-
-# Ignore links to specified DocTypes when deleting documents
-# -----------------------------------------------------------
-
-# ignore_links_on_delete = ["Communication", "ToDo"]
-
-# Request Events
-# ----------------
-# before_request = ["bimxcloud_store.utils.before_request"]
-# after_request = ["bimxcloud_store.utils.after_request"]
-
-# Job Events
-# ----------
-# before_job = ["bimxcloud_store.utils.before_job"]
-# after_job = ["bimxcloud_store.utils.after_job"]
-
-# User Data Protection
-# --------------------
-
-# user_data_fields = [
-# 	{
-# 		"doctype": "{doctype_1}",
-# 		"filter_by": "{filter_by}",
-# 		"redact_fields": ["{field_1}", "{field_2}"],
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_2}",
-# 		"filter_by": "{filter_by}",
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_3}",
-# 		"strict": False,
-# 	},
-# 	{
-# 		"doctype": "{doctype_4}"
-# 	}
-# ]
-
-# Authentication and authorization
-# --------------------------------
-
-# auth_hooks = [
-# 	"bimxcloud_store.auth.validate"
-# ]
-
-# Automatically update python controller files with type annotations for this app.
-# export_python_type_annotations = True
-
-# default_log_clearing_doctypes = {
-# 	"Logging DocType Name": 30  # days to retain logs
-# }
-
-# Translation
-# ------------
-# List of apps whose translatable strings should be excluded from this app's translations.
-# ignore_translatable_strings_from = []
-
+# 5. bench build --app bimxcloud_store
+#    bench --site bimxcloud.com clear-cache

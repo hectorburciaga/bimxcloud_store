@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrito | BIMXcloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/bimxcloud_store/css/store.css" />
+  <link rel="stylesheet" href="/assets/bimxcloud_store/css/cart.css" />
+  {% if paypal_client_id %}
+  <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&currency=MXN&intent=capture&components=buttons" defer></script>
+  {% endif %}
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="/landing" class="nav__logo">
+              {%- if brand_html -%}
+        {{ brand_html }}
+        {%- elif banner_image -%}
+        <img src='{{ banner_image }}' height="40 px">
+        {%- else -%}
+        <span>{{ (frappe.get_hooks("brand_html") or [_("Bimxcloud")])[0] }}</span>
+        {%- endif -%}
+    </a>
+
+    <ul class="nav__links">
+      <li><a href="/landing" class="nav__link">Inicio</a></li>
+      <li><a href="/store" class="nav__link nav__link--active">Tienda</a></li>
+      <li><a href="/cart" class="nav__link">Carrito</a></li>
+      {% if frappe.session.user != 'Guest' %}
+      <li><a href="/customer_portal" class="nav__link">Portal de Clientes</a></li>
+      {% endif %}
+    </ul>
+
+    <div class="nav__actions">
+      <a href="/cart" class="nav__cart" aria-label="Ver carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="nav__cart-badge" id="cart-count">0</span>
+      </a>
+      {% if frappe.session.user == 'Guest' %}
+      <a href="/login?redirect-to=/store" class="btn btn--ghost btn--sm" id="nav-auth-btn">Iniciar Sesión</a>
+      {%- else -%}
+      <a href="/logout?redirect-to=/store" class="btn btn--ghost btn--sm" id="nav-auth-btn">Cerrar Sesión</a>
+      {% endif %}
+    </div>
+
+    <button class="nav__hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- CART CONTENT -->
+<main class="cart-main" style="margin-top: var(--nav-h); padding: 48px 24px 80px;">
+  <div class="container">
+    <div class="cart-header">
+      <h1 class="cart-title">Tu Carrito</h1>
+      <a href="/store" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Seguir comprando
+      </a>
+    </div>
+
+    <div class="cart-layout" id="cart-layout">
+    </div>
+  </div>
+</main>
+
+<script>
+  window.__CART_CONFIG__ = {
+    paypalClientId:   "{{ paypal_client_id }}",
+    wireBankName:     "{{ wire_bank_name }}",
+    wireAccountName:  "{{ wire_account_name }}",
+    wireAccountNo:    "{{ wire_account_no }}",
+    wireRouting:      "{{ wire_routing }}",
+    wireSwift:        "{{ wire_swift }}",
+    wireAddress:      "{{ wire_address }}",
+    wireInstructions: {{ wire_instructions | tojson }},
+    csrfToken:        "{{ frappe.session.get('csrf_token', 'Guest') }}"
+  };
+</script>
+
+<script src="/assets/bimxcloud_store/js/store.js"></script>
+<script src="/assets/bimxcloud_store/js/cart.js"></script>
+</body>
+</html>

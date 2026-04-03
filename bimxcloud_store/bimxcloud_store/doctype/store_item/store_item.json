@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "autoname": "field:item",
+ "creation": "2026-04-03 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item",
+  "item_name",
+  "item_group",
+  "published",
+  "ranking",
+  "section_pricing",
+  "price",
+  "currency",
+  "section_display",
+  "short_description",
+  "website_image"
+ ],
+ "fields": [
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fetch_from": "item.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item.item_group",
+   "fieldname": "item_group",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Group",
+   "options": "Item Group",
+   "read_only": 0
+  },
+  {
+   "default": "1",
+   "fieldname": "published",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Published"
+  },
+  {
+   "default": "0",
+   "fieldname": "ranking",
+   "fieldtype": "Int",
+   "label": "Ranking"
+  },
+  {
+   "fieldname": "section_pricing",
+   "fieldtype": "Section Break",
+   "label": "Pricing"
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price",
+   "options": "currency",
+   "reqd": 1
+  },
+  {
+   "default": "MXN",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_display",
+   "fieldtype": "Section Break",
+   "label": "Display"
+  },
+  {
+   "fieldname": "short_description",
+   "fieldtype": "Small Text",
+   "label": "Short Description"
+  },
+  {
+   "fieldname": "website_image",
+   "fieldtype": "Attach Image",
+   "label": "Website Image"
+  }
+ ],
+ "links": [],
+ "modified": "2026-04-03 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bimxcloud Store",
+ "name": "Store Item",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Guest"
+  }
+ ],
+ "sort_field": "ranking",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "item_name",
+ "track_changes": 1
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda | BIMXcloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/bimxcloud_store/css/store.css" />
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────────────────────────────── -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="/landing" class="nav__logo">
+              {%- if brand_html -%}
+        {{ brand_html }}
+        {%- elif banner_image -%}
+        <img src='{{ banner_image }}' height="40 px">
+        {%- else -%}
+        <span>{{ (frappe.get_hooks("brand_html") or [_("Bimxcloud")])[0] }}</span>
+        {%- endif -%}
+    </a>
+
+    <ul class="nav__links">
+      <li><a href="/landing" class="nav__link">Inicio</a></li>
+      <li><a href="/store" class="nav__link nav__link--active">Tienda</a></li>
+      <li><a href="/cart" class="nav__link">Carrito</a></li>
+      {% if frappe.session.user != 'Guest' %}
+      <li><a href="/customer_portal" class="nav__link">Portal de Clientes</a></li>
+      {% endif %}
+    </ul>
+
+    <div class="nav__actions">
+      <a href="/cart" class="nav__cart" aria-label="Ver carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="nav__cart-badge" id="cart-count">0</span>
+      </a>
+      {% if frappe.session.user == 'Guest' %}
+      <a href="/login?redirect-to=/store" class="btn btn--ghost btn--sm" id="nav-auth-btn">Iniciar Sesión</a>
+      {%- else -%}
+      <a href="/logout?redirect-to=/store" class="btn btn--ghost btn--sm" id="nav-auth-btn">Cerrar Sesión</a>
+      {% endif %}
+    </div>
+
+    <button class="nav__hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ─── MOBILE MENU ───────────────────────────────────────────────────────── -->
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="/landing">Inicio</a></li>
+    <li><a href="/store">Tienda</a></li>
+    <li><a href="/cart">Carrito</a></li>
+    <li><a href="/customer_portal">Portal de Clientes</a></li>
+    <li><a href="/login" id="mobile-auth-btn">Iniciar Sesión</a></li>
+  </ul>
+</div>
+
+<!-- ─── HERO ──────────────────────────────────────────────────────────────── -->
+<section class="store-hero">
+  <div class="store-hero__grid-bg"></div>
+  <div class="store-hero__content">
+    <div class="store-hero__tag">Soluciones Colaborativas en la Nube · AEC</div>
+    <h1 class="store-hero__title">Infraestructura Digital<br /><em>para tu Empresa</em></h1>
+    <p class="store-hero__sub">Elige el servicio que necesitas. Sin contratos a largo plazo, sin sorpresas.</p>
+  </div>
+  <div class="store-hero__scroll-hint">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    Explorar productos
+  </div>
+</section>
+
+<!-- ─── FILTERS ───────────────────────────────────────────────────────────── -->
+<section class="filters-bar">
+  <div class="container">
+    <div class="filters-bar__inner">
+      <div class="filters-bar__pills" id="filter-pills" role="group" aria-label="Categorías">
+        <button class="pill pill--active" data-filter="all">Todos</button>
+        <!-- Group pills injected by JS after Frappe items load -->
+      </div>
+      <div class="filters-bar__sort">
+        <label for="sort-select" class="sr-only">Ordenar por</label>
+        <select id="sort-select" class="sort-select">
+          <option value="default">Ordenar: Relevancia</option>
+          <option value="price-asc">Precio: Menor a Mayor</option>
+          <option value="price-desc">Precio: Mayor a Menor</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRODUCTS GRID ─────────────────────────────────────────────────────── -->
+<section class="products-section">
+  <div class="container">
+    <div class="products-grid" id="products-grid">
+    </div>
+  </div>
+</section>
+
+<!-- ─── QUICK-VIEW MODAL ──────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-label="Vista rápida del producto" hidden>
+  <div class="modal" id="product-modal">
+    <button class="modal__close" id="modal-close" aria-label="Cerrar">&times;</button>
+    <div class="modal__body" id="modal-body">
+    </div>
+  </div>
+</div>
+
+<!-- ─── TOAST ─────────────────────────────────────────────────────────────── -->
+<div class="toast" id="toast" role="status" aria-live="polite" hidden>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-msg">Producto añadido al carrito</span>
+</div>
+
+<script>window.__STORE_PRODUCTS__ = {{ products | tojson }};</script>
+<script src="/assets/bimxcloud_store/js/store.js"></script>
+</body>
+</html>
